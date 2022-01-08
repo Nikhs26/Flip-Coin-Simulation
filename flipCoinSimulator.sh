@@ -1,14 +1,14 @@
 #! /bin/bash
 
 declare -A flipCoin
-read -p "How many times you want to flip coin " noOfTime
+#read -p "How many times you want to flip coin " noOfTime
 
 IS_HEAD=1
 counter=0
 headCount=0
 tailCount=0
 
-while [ $counter -lt $noOfTime ]
+while [ 1 ]
 do
 	flipCoinResult=$((RANDOM%2))
 	if [ $flipCoinResult -eq $IS_HEAD ]
@@ -21,7 +21,20 @@ do
 		flipCoin[$counter]="Tail"
 		((tailCount++))
         fi
-((counter++))
+
+	if [[ ($headCount -eq 21) && ($tailCount -eq 21) ]]
+	then
+		echo "Match tie"
+		break
+	elif [ $headCount -eq 21 ]
+	then
+		echo "HEAD won the match"
+		break
+	elif [ $tailCount -eq 21 ]
+	then
+		echo  "TAIL won the match"
+		break
+	fi
 done
 
 echo "The number of times won the head: $headCount"
