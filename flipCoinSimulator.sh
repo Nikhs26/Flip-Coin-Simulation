@@ -7,25 +7,24 @@ IS_HEAD=1
 counter=0
 headCount=0
 tailCount=0
+diff=0
 
 while [ 1 ]
 do
 	flipCoinResult=$((RANDOM%2))
 	if [ $flipCoinResult -eq $IS_HEAD ]
         then
-                echo "Head"
 		flipCoin[$counter]="Head"
 		((headCount++))
         else
-                echo "Tail"
 		flipCoin[$counter]="Tail"
 		((tailCount++))
         fi
-
 	if [[ ($headCount -eq 21) && ($tailCount -eq 21) ]]
 	then
 		echo "Match tie"
-		break
+		counter=1
+		continue
 	elif [ $headCount -eq 21 ]
 	then
 		echo "HEAD won the match"
@@ -34,6 +33,15 @@ do
 	then
 		echo  "TAIL won the match"
 		break
+	elif [ $counter -eq 1 ]
+	then
+		diff=$(($headCount-$tailCount))
+		diff=${diff#-}
+		if [ $diff -eq 2 ]
+		then
+			echo "difference 2 point in between head and tail"
+			break
+		fi
 	fi
 done
 
